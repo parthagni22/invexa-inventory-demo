@@ -467,3 +467,4 @@ table.tbl { width: 100%; border-collapse: collapse; }
   .notif-pop { width: calc(100vw - 32px); }
 }
 .invoice th.right, .invoice td.right { text-align: right; }
+.tbl td .mono, .tbl td.mono { white-space: nowrap; }
