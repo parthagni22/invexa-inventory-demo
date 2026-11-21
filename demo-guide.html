@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invexa Demo Guide</title>
+<meta name="description" content="Step-by-step guide to presenting the Invexa inventory platform demo as Administrator, Inventory Manager and Sales Executive.">
+<style>
+  :root {
+    --primary: #2f6fed; --violet: #6a5cff; --grad: linear-gradient(135deg, #2f6fed, #6a5cff);
+    --text: #1b2236; --text-2: #4a5470; --muted: #7a849c; --border: #e4e8f1; --bg: #f4f6fb; --soft: #eef3ff;
+    --green: #12a46b; --green-50: #e7f8f0; --amber: #c27306; --amber-50: #fff4e2; --red: #d93a3f; --red-50: #fdeced;
+    --cyan: #0b8fc7; --cyan-50: #e5f5fc; --violet-50: #f0edff;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: var(--text); background: var(--bg); }
+  a { color: var(--primary); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3, h4 { line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+  code, .k { font-family: Consolas, "SF Mono", monospace; background: #eef1f7; border: 1px solid var(--border); padding: 1px 6px; border-radius: 5px; font-size: .92em; white-space: nowrap; }
+  b.btn { display: inline-block; font-weight: 600; font-size: .9em; padding: 1px 9px; border-radius: 6px; background: var(--soft); color: #1f4fb5; border: 1px solid #cddafb; white-space: nowrap; }
+  b.menu { display: inline-block; font-weight: 600; font-size: .9em; padding: 1px 9px; border-radius: 6px; background: #1d2540; color: #fff; white-space: nowrap; }
+
+  /* header */
+  header.hero { background: radial-gradient(circle at 85% 10%, rgba(255,255,255,.18), transparent 40%), linear-gradient(135deg, #182046, #2f3fa8); color: #fff; padding: 44px 0 40px; }
+  .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+  .logo-mark { width: 42px; height: 42px; border-radius: 11px; background: var(--grad); display: grid; place-items: center; box-shadow: 0 6px 16px rgba(106,92,255,.45); }
+  .logo b { font-size: 20px; display: block; }
+  .logo span { font-size: 12px; opacity: .7; }
+  header h1 { font-size: 38px; font-weight: 800; }
+  header p.lead { font-size: 18px; opacity: .88; margin: 12px 0 0; max-width: 760px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .hero-meta span { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); padding: 5px 12px; border-radius: 20px; font-size: 14px; }
+  .hero-actions { margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .hbtn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--primary); text-decoration: none; font-weight: 700; padding: 11px 18px; border-radius: 10px; border: none; cursor: pointer; font-size: 15px; }
+  .hbtn.ghost { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.3); }
+
+  /* toc */
+  nav.toc { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+  nav.toc .wrap { display: flex; gap: 4px; overflow-x: auto; padding-top: 8px; padding-bottom: 8px; }
+  nav.toc a { white-space: nowrap; text-decoration: none; color: var(--text-2); font-weight: 600; font-size: 14px; padding: 7px 12px; border-radius: 8px; }
+  nav.toc a:hover { background: var(--soft); color: var(--primary); }
+
+  section { padding: 40px 0 8px; scroll-margin-top: 56px; }
+  .eyebrow { font-size: 12.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--primary); margin-bottom: 6px; }
+  section > .wrap > h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .sub { color: var(--text-2); margin: 0 0 20px; font-size: 17px; }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .mini h3 { font-size: 17px; margin-bottom: 6px; }
+  .mini p { margin: 0; color: var(--text-2); font-size: 15px; }
+  .ico { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font-size: 20px; margin-bottom: 10px; }
+  .i-blue { background: var(--soft); } .i-green { background: var(--green-50); } .i-amber { background: var(--amber-50); } .i-violet { background: var(--violet-50); } .i-cyan { background: var(--cyan-50); } .i-red { background: var(--red-50); }
+
+  /* role cards */
+  .role { border-radius: 16px; padding: 22px; color: #fff; position: relative; overflow: hidden; }
+  .role::after { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,.12); }
+  .r-admin { background: linear-gradient(135deg, #5b3fd6, #8a74ff); }
+  .r-inv { background: linear-gradient(135deg, #0a7fb3, #2fb3e6); }
+  .r-sales { background: linear-gradient(135deg, #1f5fd6, #4f8bff); }
+  .role .tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .85; }
+  .role h3 { font-size: 21px; margin: 4px 0 2px; }
+  .role .who { font-size: 14px; opacity: .85; margin-bottom: 14px; }
+  .cred { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.25); border-radius: 10px; padding: 10px 12px; font-size: 14px; position: relative; z-index: 1; }
+  .cred div { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+  .cred code { background: rgba(0,0,0,.18); border-color: rgba(255,255,255,.2); color: #fff; }
+  .copy { background: rgba(255,255,255,.2); border: none; color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; cursor: pointer; }
+  .role ul { margin: 14px 0 0; padding-left: 18px; font-size: 14px; position: relative; z-index: 1; }
+
+  /* order timeline */
+  .order { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .order .o { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px; position: relative; }
+  .order .n { width: 30px; height: 30px; border-radius: 50%; background: var(--grad); color: #fff; display: grid; place-items: center; font-weight: 800; margin-bottom: 8px; }
+  .order .o b { display: block; }
+  .order .o span { color: var(--text-2); font-size: 14px; }
+  .order .t { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+
+  /* steps */
+  .part { margin-top: 26px; }
+  .part-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .part-head .pn { background: #1d2540; color: #fff; font-weight: 800; border-radius: 8px; padding: 3px 10px; font-size: 14px; white-space: nowrap; }
+  .part-head h3 { font-size: 20px; }
+  .part-head { flex-wrap: wrap; }
+  .part-head .time { margin-left: auto; font-size: 13px; color: var(--muted); }
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 14px 16px 14px 62px; background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 16px; top: 14px; width: 30px; height: 30px; border-radius: 50%; background: var(--soft); color: var(--primary); font-weight: 800; display: grid; place-items: center; font-size: 14px; }
+  ol.steps > li > b:first-child { display: block; font-size: 16px; margin-bottom: 2px; }
+  ol.steps p { margin: 4px 0 0; color: var(--text-2); }
+  .see { margin-top: 8px; padding: 9px 12px; border-radius: 9px; background: var(--green-50); color: #0c6e48; font-size: 14.5px; border-left: 4px solid var(--green); }
+  .see::before { content: "✅ You will see: "; font-weight: 700; }
+  .say { margin-top: 8px; padding: 9px 12px; border-radius: 9px; background: var(--violet-50); color: #4b38b8; font-size: 14.5px; border-left: 4px solid var(--violet); }
+  .say::before { content: "💬 Say to the audience: "; font-weight: 700; }
+  .type { margin-top: 8px; padding: 9px 12px; border-radius: 9px; background: var(--cyan-50); color: #075f85; font-size: 14.5px; border-left: 4px solid var(--cyan); }
+  .type::before { content: "⌨️ Enter: "; font-weight: 700; }
+  .tip { padding: 12px 16px; border-radius: 12px; background: var(--amber-50); border: 1px solid #f6d9a8; color: #7a4a03; margin: 12px 0; font-size: 15px; }
+  .tip::before { content: "💡 Tip: "; font-weight: 700; }
+  .warn { padding: 12px 16px; border-radius: 12px; background: var(--red-50); border: 1px solid #f7c6c8; color: #9b1f24; margin: 12px 0; font-size: 15px; }
+  .warn::before { content: "⚠️ Important: "; font-weight: 700; }
+
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); font-size: 15px; }
+  th { background: #f3f6fc; text-align: left; padding: 11px 14px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  td { padding: 11px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+  .yes { color: var(--green); font-weight: 800; } .no { color: #b7bfd0; }
+  .tbl-wrap { overflow-x: auto; border-radius: 12px; }
+
+  .check { list-style: none; padding: 0; margin: 0; }
+  .check li { padding: 10px 14px 10px 44px; position: relative; background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; }
+  .check li::before { content: "☐"; position: absolute; left: 16px; top: 8px; font-size: 18px; color: var(--primary); }
+
+  footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; text-align: center; }
+
+  @media (max-width: 820px) {
+    .grid2, .grid3, .order { grid-template-columns: 1fr; }
+    header h1 { font-size: 30px; }
+    ol.steps > li { padding-left: 54px; }
+  }
+  @media print {
+    body { background: #fff; font-size: 13px; }
+    nav.toc, .hero-actions, .copy { display: none !important; }
+    header.hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .role, .order .n, b.menu, ol.steps > li::before, .see, .say, .type, .tip, .warn { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    section { padding-top: 18px; }
+    ol.steps > li, .card, .role, table { break-inside: avoid; }
+    .pb { break-before: page; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="logo"><div class="logo-mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2 3 7v10l9 5 9-5V7z" fill="rgba(255,255,255,.15)"/><path d="m3 7 9 5 9-5M12 12v10"/></svg></div><div><b>Invexa</b><span>Inventory Cloud</span></div></div>
+    <h1>Demo Guide: how to present Invexa</h1>
+    <p class="lead">A simple, step-by-step script. Follow it from top to bottom and your demo will flow smoothly. You don't need any technical knowledge: just click what the guide says to click.</p>
+    <div class="hero-meta"><span>⏱ Full demo: about 30–35 minutes</span><span>👤 3 demo logins</span><span>🌐 Works in any browser (Chrome recommended)</span></div>
+    <div class="hero-actions">
+      <a class="hbtn" href="https://parthagni22.github.io/invexa-inventory-demo/" target="_blank" rel="noopener">▶ Open the demo platform</a>
+      <button class="hbtn ghost" onclick="window.print()">🖨 Print / Save as PDF</button>
+    </div>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#what">1. What is Invexa</a>
+  <a href="#before">2. Before you start</a>
+  <a href="#logins">3. The 3 logins</a>
+  <a href="#order">4. Demo order</a>
+  <a href="#basics">5. Screen basics</a>
+  <a href="#admin1">6. Admin intro</a>
+  <a href="#inv">7. Inventory Manager</a>
+  <a href="#sales">8. Sales Executive</a>
+  <a href="#admin2">9. Admin finale</a>
+  <a href="#ripple">10. What changes where</a>
+  <a href="#help">11. If something goes wrong</a>
+</div></nav>
+
+<!-- 1 -->
+<section id="what"><div class="wrap">
+  <div class="eyebrow">Section 1</div>
+  <h2>What is Invexa? (in 30 seconds)</h2>
+  <p class="sub">Invexa is an <b>online inventory system for food factories that make fresh, short shelf-life products</b>, such as tofu, plant-based yogurt, soya chaap, pickles and spreads.</p>
+  <div class="card">
+    <p style="margin:0 0 10px">It manages the whole journey of a product in one place:</p>
+    <p style="margin:0;font-size:18px;font-weight:700;color:var(--primary)">Buy raw materials → Make products → Store in cold rooms → Sell to customers → Handle returns</p>
+    <p style="margin:12px 0 0;color:var(--text-2)">Because everything is connected, <b>one action automatically updates every other screen</b>. When you sell 24 packs, stock goes down, the invoice is created, the dashboard updates and the audit log records who did it.</p>
+  </div>
+  <div class="grid3">
+    <div class="card mini"><div class="ico i-amber">⏳</div><h3>Expiry control</h3><p>Every pack belongs to a <b>batch</b> with a made-on and expiry date. The system always sends out the <b>oldest-expiry stock first</b> (called FEFO).</p></div>
+    <div class="card mini"><div class="ico i-cyan">🌡️</div><h3>Cold-chain tracking</h3><p>Fridge and cold-room temperatures are logged. If one goes out of range, an <b>alert</b> appears straight away.</p></div>
+    <div class="card mini"><div class="ico i-violet">🔍</div><h3>Recall in seconds</h3><p>Pick any batch and see <b>which raw materials went into it</b> and <b>which customers received it</b>.</p></div>
+    <div class="card mini"><div class="ico i-green">🏭</div><h3>Production with recipes</h3><p>Each product has a recipe. Starting production <b>takes the ingredients out of stock</b> automatically.</p></div>
+    <div class="card mini"><div class="ico i-blue">🧾</div><h3>Sales & GST invoices</h3><p>Orders, dispatch, <b>GST tax invoice</b>, payments, credit limits and returns.</p></div>
+    <div class="card mini"><div class="ico i-red">🔐</div><h3>Secure & role-based</h3><p>Each person only sees the menus their job needs. Data is <b>encrypted</b>, and every action is recorded.</p></div>
+  </div>
+  <div class="tip">The demo company is a fictional food manufacturer called <b>"Verdant Soy Foods Pvt. Ltd."</b> with a plant in Pune and cold hubs in Mumbai and Bengaluru. It already has <b>60 days of realistic history</b>: orders, production, purchases, temperatures and more.</div>
+</div></section>
+
+<!-- 2 -->
+<section id="before"><div class="wrap">
+  <div class="eyebrow">Section 2</div>
+  <h2>Before you start (5 minutes before the meeting)</h2>
+  <p class="sub">Do these checks before the audience joins.</p>
+  <ul class="check">
+    <li>Use <b>Google Chrome or Microsoft Edge</b> in a <b>normal window, not Incognito/Private</b>. Make sure the internet is working.</li>
+    <li>Open <a href="https://parthagni22.github.io/invexa-inventory-demo/" target="_blank" rel="noopener">https://parthagni22.github.io/invexa-inventory-demo/</a>. You should see the Invexa <b>landing page</b>.</li>
+    <li>Click <b class="btn">Sign in</b>, then click the <b>Administrator</b> demo account and sign in once. The first time, it takes about a second to load the demo data.</li>
+    <li>Want a clean, fresh dataset? Click <b class="btn">Reset demo data</b> in the blue strip at the top of the app, then click <b class="btn">Reset data</b>.</li>
+    <li>Sign out: click your name at the <b>top-right</b>, then <b>Sign out</b>. You are back on the landing page, ready to start.</li>
+    <li>Zoom the browser to <b>90%</b> (press <code>Ctrl</code> + <code>-</code>) if you are on a small screen or sharing on a projector.</li>
+  </ul>
+  <div class="warn">All data lives <b>inside your own browser</b>. If you present from a different laptop or browser, it starts with fresh demo data. That's fine, but changes you made earlier won't be there.</div>
+</div></section>
+
+<!-- 3 -->
+<section id="logins" class="pb"><div class="wrap">
+  <div class="eyebrow">Section 3</div>
+  <h2>The 3 demo logins</h2>
+  <p class="sub">Each login is a different job role, so each one sees a different set of menus. The logins are also shown on the Sign in page, where you can just <b>click one to fill it in</b>.</p>
+  <div class="grid3">
+    <div class="role r-admin">
+      <div class="tag">Role 1 · Owner / Head</div><h3>Administrator</h3><div class="who">Name in demo: Rohan Kulkarni</div>
+      <div class="cred"><div>Email <code>admin@invexa.demo</code><button class="copy" data-c="admin@invexa.demo">Copy</button></div><div style="margin-top:6px">Password <code>Admin@2026</code><button class="copy" data-c="Admin@2026">Copy</button></div></div>
+      <ul><li>Sees <b>all 16 menus</b></li><li>The only role with <b>Settings</b> (company, users, security)</li><li>Best for the overview and the finale</li></ul>
+    </div>
+    <div class="role r-inv">
+      <div class="tag">Role 2 · Plant & stores</div><h3>Inventory Manager</h3><div class="who">Name in demo: Sneha Patil</div>
+      <div class="cred"><div>Email <code>stores@invexa.demo</code><button class="copy" data-c="stores@invexa.demo">Copy</button></div><div style="margin-top:6px">Password <code>Store@2026</code><button class="copy" data-c="Store@2026">Copy</button></div></div>
+      <ul><li>Sees <b>12 menus</b>: stock, batches, warehouses, production, purchasing</li><li><b>Cannot</b> see Sales Orders, Customers, Returns or Settings</li></ul>
+    </div>
+    <div class="role r-sales">
+      <div class="tag">Role 3 · Sales team</div><h3>Sales Executive</h3><div class="who">Name in demo: Vikram Joshi</div>
+      <div class="cred"><div>Email <code>sales@invexa.demo</code><button class="copy" data-c="sales@invexa.demo">Copy</button></div><div style="margin-top:6px">Password <code>Sales@2026</code><button class="copy" data-c="Sales@2026">Copy</button></div></div>
+      <ul><li>Sees <b>7 menus</b>: sales orders, customers, returns, stock (view)</li><li><b>Cannot</b> see production, purchasing, warehouses or Settings</li></ul>
+    </div>
+  </div>
+
+  <h3 style="margin:26px 0 10px;font-size:19px">Which menus each role sees</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Menu (left sidebar)</th><th>What it is for</th><th>Admin</th><th>Inventory Mgr</th><th>Sales Exec</th></tr>
+    <tr><td><b>Dashboard</b></td><td>Summary: sales, stock value, alerts, charts</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+    <tr><td><b>Items & Catalog</b></td><td>All products, raw materials and packaging with live stock</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+    <tr><td><b>Batches & Expiry</b></td><td>Every batch, its expiry date, and the recall trace</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+    <tr><td><b>Warehouses & Cold Chain</b></td><td>Cold rooms and hubs, temperatures, space used</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Stock Adjustments</b></td><td>Damage, wastage, expired write-off, stock count fixes</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Stock Transfers</b></td><td>Moving stock from the plant to the city hubs</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Production Orders</b></td><td>Making products: start, quality check, finish</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Recipes (BOM)</b></td><td>The ingredient list for each product, with cost</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Purchase Orders</b></td><td>Buying raw materials and receiving them</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Vendors</b></td><td>Suppliers list and their performance</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Sales Orders</b></td><td>Customer orders, dispatch, invoice, payment</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td></tr>
+    <tr><td><b>Customers</b></td><td>Distributors, supermarkets, hotels, shops</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td></tr>
+    <tr><td><b>Returns & Credit Notes</b></td><td>Goods sent back by customers</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td></tr>
+    <tr><td><b>Reports</b></td><td>10 reports, each downloadable to Excel (CSV)</td><td class="yes">✓ all 10</td><td class="yes">✓ all 10</td><td class="yes">✓ 5 sales/stock</td></tr>
+    <tr><td><b>Audit Log</b></td><td>Who did what and when</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+    <tr><td><b>Settings</b></td><td>Company details, users, security, backup</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+  </table></div>
+</div></section>
+
+<!-- 4 -->
+<section id="order"><div class="wrap">
+  <div class="eyebrow">Section 4</div>
+  <h2>Demo order: which login to use first</h2>
+  <p class="sub">Tell the story the way the business actually works: first the <b>factory makes the product</b>, then the <b>sales team sells it</b>, then the <b>owner sees everything connected</b>.</p>
+  <div class="order">
+    <div class="o"><div class="n">1</div><b>Administrator</b><span>Quick tour: what the platform is, the dashboard, alerts</span><div class="t">⏱ about 5 min · Section 6</div></div>
+    <div class="o"><div class="n">2</div><b>Inventory Manager</b><span>Buy materials, make products, check temperatures, move stock</span><div class="t">⏱ about 12 min · Section 7</div></div>
+    <div class="o"><div class="n">3</div><b>Sales Executive</b><span>Take an order, dispatch it, print the invoice, take payment, handle a return</span><div class="t">⏱ about 10 min · Section 8</div></div>
+    <div class="o"><div class="n">4</div><b>Administrator again</b><span>Show that everything updated: reports, audit log, users, security</span><div class="t">⏱ about 6 min · Section 9</div></div>
+  </div>
+  <div class="tip">Short on time (10 minutes)? Do only <b>Section 6</b>, then <b>Part B</b> of Section 7 (production), then <b>Part A</b> of Section 8 (sell and invoice). Stay logged in as Administrator, because Admin can do everything.</div>
+  <div class="tip"><b>How to switch between logins:</b> click your <b>name at the top-right</b>, then <b>Sign out</b>. You land on the home page. Click <b class="btn">Sign in</b>, click the next demo account, then <b class="btn">Sign in securely</b>.</div>
+</div></section>
+
+<!-- 5 -->
+<section id="basics" class="pb"><div class="wrap">
+  <div class="eyebrow">Section 5</div>
+  <h2>Screen basics (the same for every login)</h2>
+  <p class="sub">Point these out once at the start. They work the same everywhere.</p>
+  <div class="grid2">
+    <div class="card mini"><div class="ico i-blue">📋</div><h3>Left menu (sidebar)</h3><p>Every module. Red numbers next to a menu mean something needs attention, for example orders waiting to be dispatched.</p></div>
+    <div class="card mini"><div class="ico i-violet">✨ </div><h3>"Generate sample data" buttons</h3><p>Every screen has a <b>purple dotted button</b> at the top-right (for example <b class="btn">✨ Generate sample orders</b>). One click <b>adds realistic new records</b>, and all linked screens update. <b>This is how you load data in one click.</b></p></div>
+    <div class="card mini"><div class="ico i-green">➕</div><h3>"+ New" button (top bar)</h3><p>Create anything from anywhere: Sales Order, Purchase Order, Production Order, Transfer, Adjustment, Item, Customer.</p></div>
+    <div class="card mini"><div class="ico i-amber">🔔</div><h3>Bell icon (alerts)</h3><p>Low stock, expiring batches, temperature problems, late deliveries. Click an alert to jump straight to the right screen.</p></div>
+    <div class="card mini"><div class="ico i-cyan">🔎</div><h3>Search (or press Ctrl + K)</h3><p>Type a product, batch number, order number or customer name to find it instantly.</p></div>
+    <div class="card mini"><div class="ico i-red">👉</div><h3>Click any row</h3><p>Clicking a row in any table opens a <b>side panel</b> with full details and action buttons (Confirm, Dispatch, Print and so on).</p></div>
+  </div>
+  <div class="tip">Every table has a <b>search box</b>, <b>filters</b> and an <b class="btn">Export</b> button that downloads the table as a CSV file (opens in Excel).</div>
+</div></section>
+
+<!-- 6 -->
+<section id="admin1"><div class="wrap">
+  <div class="eyebrow">Section 6 · Login 1 of 4</div>
+  <h2>👑 Administrator: introduction tour</h2>
+  <p class="sub">Goal: show <b>what the platform is</b> and <b>how much it can see at a glance</b>.</p>
+  <div class="card" style="background:var(--violet-50);border-color:#d9d2ff"><b>Login:</b> <code>admin@invexa.demo</code> / <code>Admin@2026</code> · <b>After you log in you see:</b> the Dashboard, with a greeting, 4 summary boxes, charts, an "Action centre" of alerts and recent activity. The left menu shows all 16 modules.</div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part A</span><h3>Landing page and sign in</h3><span class="time">1 min</span></div>
+  <ol class="steps">
+    <li><b>Open the link and show the home page.</b><p>Scroll down slowly: features, how it works, modules, security, pricing.</p><div class="say">"This is Invexa, an inventory cloud built for food manufacturers whose products expire quickly."</div></li>
+    <li><b>Click <b class="btn">Sign in</b> (top-right), then click the "Administrator" demo account, then <b class="btn">Sign in securely</b>.</b><div class="see">The Dashboard opens, saying "Good morning/evening, Rohan".</div></li>
+  </ol></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part B</span><h3>Walk through the Dashboard</h3><span class="time">3 min</span></div>
+  <ol class="steps">
+    <li><b>Point to the blue banner at the top.</b><p>It shows today's bookings, kilograms produced in the last 24 hours and plant capacity used.</p></li>
+    <li><b>Point to the 4 summary boxes.</b><p>Inventory value · Revenue (last 30 days) · Finished goods on hand (with expiring/expired counts) · Money customers owe (Receivables).</p></li>
+    <li><b>On the "Sales vs production" chart, click <b class="btn">14D</b>, <b class="btn">30D</b> and <b class="btn">60D</b>.</b><div class="see">The chart redraws for that period.</div></li>
+    <li><b>Point to the "Action centre" on the right.</b><p>Click any alert, for example "batches expiring soon". It jumps to the exact list. Use the browser Back button to return.</p><div class="say">"The system tells the team what needs attention today. Nobody has to dig through spreadsheets."</div></li>
+    <li><b>Scroll down to show:</b> stock value by category, the <b>Expiry risk</b> chart, <b>Cold chain & capacity</b> (live temperature of each cold room), <b>Top products</b> and <b>Recent activity</b>.</li>
+  </ol></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part C</span><h3>Show search and alerts</h3><span class="time">1 min</span></div>
+  <ol class="steps">
+    <li><b>Press <code>Ctrl</code> + <code>K</code> (or click the search bar) and type <code>smoked</code>.</b><div class="see">"Smoked Tofu 200 g" appears with its stock. Click it to open its full details.</div></li>
+    <li><b>Click the bell 🔔 at the top.</b><div class="see">A list of alerts: low stock, expired batches, temperature excursion and so on.</div></li>
+    <li><b>Sign out:</b> click <b>Rohan Kulkarni</b> at the top-right, then <b>Sign out</b>.</li>
+  </ol></div>
+</div></section>
+
+<!-- 7 -->
+<section id="inv" class="pb"><div class="wrap">
+  <div class="eyebrow">Section 7 · Login 2 of 4</div>
+  <h2>🏭 Inventory Manager: the factory story</h2>
+  <p class="sub">Goal: show how materials are bought, how products are made, and how stock is kept safe and fresh.</p>
+  <div class="card" style="background:var(--cyan-50);border-color:#bfe6f6"><b>Login:</b> <code>stores@invexa.demo</code> / <code>Store@2026</code> · <b>After you log in you see:</b> the same Dashboard, but the left menu shows only <b>12 modules</b>. Sales Orders, Customers, Returns and Settings are hidden.</div>
+  <div class="say" style="margin-bottom:6px">"Notice the menu is smaller. Sneha, the stores manager, only sees what her job needs."</div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part A</span><h3>Buy raw materials (Purchase Order → Receive goods)</h3><span class="time">4 min</span></div>
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Purchase Orders</b>.</b><p>Shows every order placed with suppliers and how much has arrived.</p></li>
+    <li><b>Click <b class="btn">⚡ Reorder suggestions</b>.</b><div class="see">A list of materials that are running low, grouped by supplier, with a suggested quantity.</div><div class="say">"The system tells us what to buy and how much."</div><p style="font-size:14.5px">If it says <i>"Nothing to reorder"</i>, close it and click <b class="btn">+ New purchase order</b>. Choose any vendor (for example <b>Malwa Agro Commodities</b>), add <b>Soybean – Non-GMO</b> with Qty <b>500</b>, then click <b class="btn">Create PO</b>.</p></li>
+    <li><b>Click <b class="btn">Create PO</b> next to any supplier.</b><div class="see">A New Purchase Order form opens, already filled in with the items and prices.</div><p>Keep "Issue to vendor now" ticked and click <b class="btn">Create PO</b>.</p></li>
+    <li><b>In the side panel that opens, click <b class="btn">Receive goods</b>.</b><p>This is the moment the truck arrives at the factory.</p><div class="type">Leave the quantities as they are. Point out the <b>Vendor lot #</b>, <b>Mfg date</b> and <b>Expiry</b> columns. Change one expiry date if you like.</div></li>
+    <li><b>Click <b class="btn">Post goods receipt</b>.</b><div class="see">A message saying "GRN-… posted, batches created". The PO status turns <b>Received</b>.</div></li>
+    <li><b>In the panel, look at <b>Goods receipts</b> and click one of the batch chips (they start with <code>V</code>).</b><div class="see">The batch page shows its expiry date, shelf-life bar and quantity, exactly what you just received.</div><div class="say">"Every bag of raw material now has a lot number and expiry date. That's the start of our traceability."</div></li>
+  </ol></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part B</span><h3>Make a product (Production Order)</h3><span class="time">4 min · the most impressive part</span></div>
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Recipes (BOM)</b>, then click the "Premium Tofu – Plain 200 g" card.</b><div class="see">The recipe: soybean, coagulant, pouch and label, with the cost per pack and the profit margin.</div><p>Click <b class="btn">Cancel</b> to close it.</p></li>
+    <li><b>Left menu, click <b class="menu">Production Orders</b>, then <b class="btn">+ New production order</b>.</b></li>
+    <li><b>Fill in the form:</b><div class="type">Product: <b>Premium Tofu – Plain 200 g</b> · Quantity: <b>500</b></div><div class="see">The form instantly shows the ingredients needed, what is available, the cost per pack and the share of daily plant capacity used.</div></li>
+    <li><b>Click <b class="btn">Create order</b>.</b><div class="see">The side panel opens with status <b>Planned</b> and a "Material requirements" table where every line says OK.</div></li>
+    <li><b>Click <b class="btn">Issue materials & start</b>.</b><div class="see">Status changes to <b>In Progress</b>. A "Materials issued (FEFO lots)" table shows exactly which soybean lots were used, oldest expiry first.</div><div class="say">"The system automatically takes ingredients out of stock, oldest first, so nothing goes to waste."</div></li>
+    <li><b>Click <b class="btn">Record QC & complete</b>.</b><div class="type">Good packs: <b>495</b> · Rejected packs: <b>5</b> · leave pH, temperature and the rest as they are</div><p>Click <b class="btn">Release batch</b>.</p><div class="see">A message saying "Batch TPL2-… released to stock". The status is <b>Completed</b>, with yield and cost per pack.</div></li>
+    <li><b>Click the batch number shown in the panel (next to "Output batch").</b><div class="see">The batch page: shelf-life bar, expiry date, and a <b>Backward trace</b> listing the raw-material lots used.</div><div class="say">"If a customer ever complains, we can see in one click which soybean lot went into this tofu."</div></li>
+  </ol>
+  <div class="tip">You can also just click <b class="btn">✨ Plan sample production</b> to add ready-made production orders, then press <b class="btn">Start</b> and <b class="btn">Complete</b> on them directly in the table.</div></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part C</span><h3>Cold-chain temperature alert</h3><span class="time">2 min</span></div>
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Warehouses & Cold Chain</b>.</b><div class="see">4 cards (Pune Cold Room, Pune Dry Store, Mumbai Hub, Bengaluru Hub), each with its live temperature, a temperature graph and space used.</div></li>
+    <li><b>On the "Pune Plant · Cold Room A" card, click <b class="btn">Log reading</b>.</b><div class="type">Temperature: <b>6.5</b> · Note: <b>Door left open</b></div><p>Click <b class="btn">Record</b>.</p><div class="see">An orange message saying "Excursion recorded, alert raised". The card turns red, the bell 🔔 count goes up, and the graph shows a red dot.</div><div class="say">"The cold room should be 0–4°C. The moment it goes above, everyone is alerted."</div></li>
+    <li><b>Log a normal reading to fix it:</b><div class="type">Temperature: <b>2.5</b></div><div class="see">"Reading recorded, within range". The card is green again.</div></li>
+  </ol></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part D</span><h3>Move stock to a city hub (Transfer)</h3><span class="time">2 min</span></div>
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Stock Transfers</b>, then <b class="btn">+ New transfer</b>.</b></li>
+    <li><b>Fill in the form:</b><div class="type">From: <b>Pune Plant · Cold Room A</b> · To: <b>Mumbai Cold Hub · Bhiwandi</b> · Item: <b>Premium Tofu – Plain 200 g</b> · Qty: <b>48</b></div><div class="see">The "FEFO picks" column shows which batches will be sent, oldest expiry first.</div></li>
+    <li><b>Click <b class="btn">Dispatch transfer</b>.</b><div class="see">The new transfer shows as <b>In Transit</b> (the truck is on the road).</div></li>
+    <li><b>Click the green <b class="btn">Receive</b> button on that row.</b><div class="see">Status becomes <b>Completed</b>. The stock is now in Mumbai.</div></li>
+  </ol></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part E</span><h3>Wastage and expired stock (optional)</h3><span class="time">1 min</span></div>
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Batches & Expiry</b>. In the first filter, choose "Expired".</b><div class="see">Expired batches in red.</div></li>
+    <li><b>Click <b class="btn">Write off expired</b>, then confirm.</b><div class="see">The expired stock is removed. You can see it under <b class="menu">Stock Adjustments</b> with its rupee value.</div></li>
+    <li><b>Sign out</b> (your name at the top-right, then Sign out).</li>
+  </ol></div>
+</div></section>
+
+<!-- 8 -->
+<section id="sales" class="pb"><div class="wrap">
+  <div class="eyebrow">Section 8 · Login 3 of 4</div>
+  <h2>🧾 Sales Executive: the customer story</h2>
+  <p class="sub">Goal: show how an order is taken, shipped with the freshest-correct stock, invoiced with GST, paid, and returned if needed.</p>
+  <div class="card" style="background:var(--soft);border-color:#cddafb"><b>Login:</b> <code>sales@invexa.demo</code> / <code>Sales@2026</code> · <b>After you log in you see:</b> only <b>7 menus</b>: Dashboard, Items & Catalog, Batches & Expiry, Sales Orders, Customers, Returns & Credit Notes, and Reports. No production, purchasing or settings.</div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part A</span><h3>Take an order → Dispatch → Invoice</h3><span class="time">5 min</span></div>
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Customers</b>.</b><p>Click "Pune Fresh Distributors" to show their details: credit limit, how much they owe, the products they buy most, and past orders.</p></li>
+    <li><b>In that panel, click <b class="btn">New order</b>.</b><div class="see">The order form opens with the customer already selected, the right warehouse chosen automatically, and their trade discount filled in.</div></li>
+    <li><b>Add products:</b><div class="type">Product: <b>Premium Tofu – Plain 200 g</b> · Qty: <b>24</b><br>Click <b>+ Add item</b> · Product: <b>Soya Chaap 250 g</b> · Qty: <b>12</b></div><div class="see">The <b>Available</b> column shows live stock (it turns red if you ask for more than is available). The bottom shows Gross, Discount, CGST + SGST and the Total. A blue box shows the customer's credit limit.</div></li>
+    <li><b>Keep "Confirm order now" ticked and click <b class="btn">Create order</b>.</b><div class="see">The order (SO-…) opens with status <b>Confirmed</b>. The "Sales Orders" menu badge goes up by 1.</div></li>
+    <li><b>Click <b class="btn">Dispatch</b>.</b><div class="see">A window lists the exact batches picked for each product, <b>earliest expiry first</b>.</div><div class="type">Vehicle: <b>MH12 AB 1234</b> · Driver: <b>Ramesh</b></div><p>Click <b class="btn">Dispatch & generate invoice</b>.</p><div class="see">"Dispatched, invoice INV-… generated". A "FEFO batch allocation" table appears in the panel.</div><div class="say">"The system picks the oldest stock automatically, so customers always get fresh product and we never waste expiring stock."</div></li>
+    <li><b>Click <b class="btn">Tax invoice</b>.</b><div class="see">A professional GST invoice with company GSTIN, FSSAI number, HSN codes, <b>batch numbers and expiry dates</b>, and CGST/SGST.</div><p>You can click <b class="btn">Print / Save PDF</b> to show it can be printed. Then close it.</p></li>
+  </ol>
+  <div class="tip">Want to show <b>IGST</b> (another state)? Make the order for <b>"Bengaluru Green Distributors"</b> (Karnataka). The invoice shows IGST instead of CGST + SGST.</div></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part B</span><h3>Delivery and payment</h3><span class="time">2 min</span></div>
+  <ol class="steps">
+    <li><b>In the same order panel, click <b class="btn">Mark delivered</b>.</b><div class="see">Status becomes <b>Delivered</b>.</div></li>
+    <li><b>Click <b class="btn">Record payment</b>.</b><div class="type">Amount: type <b>half of the total</b> (for example 1000) · Mode: <b>UPI</b> · Reference: <b>UPI12345</b></div><p>Click <b class="btn">Record payment</b>.</p><div class="see">The payment status shows <b>Partial</b> and the balance due goes down. Record the rest to make it <b>Paid</b>.</div></li>
+  </ol></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part C</span><h3>Customer returns some packs</h3><span class="time">2 min</span></div>
+  <ol class="steps">
+    <li><b>In the same order panel, click <b class="btn">Return</b>.</b><div class="see">The return form opens with your order selected and its batches listed.</div></li>
+    <li><b>Fill in the form:</b><div class="type">Reason: <b>Damaged in transit</b> · Return qty: <b>2</b> on the first line · Disposition: <b>Scrap</b></div><p>Click <b class="btn">Post return & credit note</b>.</p><div class="see">"RTN-… posted · credit note CN-…". Click <b class="btn">Credit note</b> to show the printable credit note.</div><div class="say">"Good packs can go back into stock (Restock), damaged ones are scrapped and counted as wastage."</div></li>
+  </ol></div>
+
+  <div class="part"><div class="part-head"><span class="pn">Part D</span><h3>One-click data and role security</h3><span class="time">1 min</span></div>
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Sales Orders</b>, then <b class="btn">✨ Generate sample orders</b>.</b><div class="see">4 new realistic orders appear instantly, some Confirmed and some Draft, and the dashboard numbers change.</div></li>
+    <li><b>Show that the Sales Executive cannot see factory screens:</b> in the browser address bar, change the end of the link to <code>#/settings</code> and press Enter.<div class="see">A message saying "Your role (Sales Executive) doesn't have access to that module", and you are sent back to the Dashboard.</div></li>
+    <li><b>Sign out.</b></li>
+  </ol></div>
+</div></section>
+
+<!-- 9 -->
+<section id="admin2"><div class="wrap">
+  <div class="eyebrow">Section 9 · Login 4 of 4</div>
+  <h2>👑 Administrator again: "everything is connected"</h2>
+  <p class="sub">Goal: prove that what the two other users did is visible everywhere, and show control and security.</p>
+  <div class="card" style="background:var(--violet-50);border-color:#d9d2ff"><b>Login:</b> <code>admin@invexa.demo</code> / <code>Admin@2026</code></div>
+
+  <ol class="steps">
+    <li><b>Left menu, click <b class="menu">Audit Log</b>.</b><div class="see">The top rows show exactly what Sneha (Inventory Manager) and Vikram (Sales Executive) just did, with the time: PO received, production completed, temperature excursion, order dispatched, payment, return.</div><div class="say">"Every single action is recorded with who and when. That's full accountability."</div></li>
+    <li><b>Left menu, click <b class="menu">Sales Orders</b>, then open the order Vikram created in Section 8 (it is at the top of the list).</b><p>Scroll to the <b>FEFO batch allocation</b> table and click the tofu batch row.</p><div class="see">The batch page opens. <b>Forward trace</b> lists every customer who received this batch, including Pune Fresh Distributors, with invoice numbers. Click <b class="btn">Recall report</b> to download the list.</div><div class="say">"If there's ever a quality problem, we know within seconds which customers to call, and which raw-material lots were used."</div></li>
+    <li><b>Left menu, click <b class="menu">Reports</b>.</b><p>Click a few reports on the left: <b>Sales by product</b>, <b>GST summary</b>, <b>Wastage & write-offs</b>, <b>Production yield</b>. Switch between 7D / 30D / 60D / 90D and click <b class="btn">Export</b>.</p></li>
+    <li><b>Left menu, click <b class="menu">Settings</b>, then the <b>Organization</b> tab.</b><div class="type">Change the company name, for example to the client's style of name, and click <b class="btn">Save organization</b></div><div class="see">The company name in the left sidebar changes immediately, and it appears on invoices too.</div></li>
+    <li><b>Settings, then the <b>Users & roles</b> tab.</b><div class="see">The 3 users, their roles and last login, plus a table showing which role can open which module.</div><p>Optional: click <b class="btn">Invite user</b> to add a new person. Use a strong password such as <code>Demo@12345</code>.</p></li>
+    <li><b>Settings, then the <b>Security & encryption</b> tab, then <b class="btn">View raw stored data</b>.</b><div class="see">Scrambled text. That is how the data is actually saved, so nobody can read it without logging in.</div><div class="say">"Passwords are never stored, and all business data is encrypted."</div></li>
+    <li><b>Go back to the <b class="menu">Dashboard</b> to finish.</b><div class="see">The numbers reflect everything done during the demo.</div><div class="say">"One platform, from raw material to customer, with expiry control, cold-chain safety and full traceability."</div></li>
+  </ol>
+</div></section>
+
+<!-- 10 -->
+<section id="ripple" class="pb"><div class="wrap">
+  <div class="eyebrow">Section 10</div>
+  <h2>What changes where (the "magic" to point out)</h2>
+  <p class="sub">When you do an action, these other screens update automatically. Use this table to show the audience that everything is connected.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th style="width:28%">When you do this…</th><th>…these update automatically</th></tr>
+    <tr><td><b>Receive a Purchase Order</b></td><td>New batches appear in <b>Batches & Expiry</b> · raw material stock goes up in <b>Items</b> · low-stock alert disappears · <b>Vendors</b> on-time score · <b>Audit Log</b></td></tr>
+    <tr><td><b>Start a Production Order</b></td><td>Ingredients go <b>down</b> in Items (oldest lots first) · the lots used are recorded for recall tracing</td></tr>
+    <tr><td><b>Complete a Production Order</b></td><td>A new finished batch with expiry date · finished stock goes <b>up</b> · Dashboard "Produced last 24h" and the production chart · <b>Production yield</b> report</td></tr>
+    <tr><td><b>Log a high temperature</b></td><td>Warehouse card turns red · bell 🔔 count goes up · Dashboard Action centre · Cold chain section · Audit Log</td></tr>
+    <tr><td><b>Transfer stock</b></td><td>Stock goes down at the plant and up at the hub · "Stock Transfers" badge while in transit</td></tr>
+    <tr><td><b>Create & dispatch a Sales Order</b></td><td>Stock goes <b>down</b> (oldest batch first) · invoice number created · Dashboard revenue · Customer's balance due · batch forward trace · Sales reports & GST report</td></tr>
+    <tr><td><b>Record a payment</b></td><td>Payment status (Partial / Paid) · Receivables on the Dashboard · Customer's outstanding amount</td></tr>
+    <tr><td><b>Post a return</b></td><td>Credit note created · stock goes back up (Restock) or is counted as wastage (Scrap) · Returns rate · Wastage report</td></tr>
+    <tr><td><b>Write off expired / adjust stock</b></td><td>Stock goes down · Stock Adjustments value · Wastage report · Expiry alerts clear</td></tr>
+    <tr><td><b>Click any ✨ "Generate sample" button</b></td><td>Adds realistic records <b>through the same rules</b>, so all of the above update too</td></tr>
+  </table></div>
+
+  <h3 style="margin:28px 0 10px;font-size:19px">✨ One-click data buttons on each screen</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Screen</th><th>Button</th><th>What it adds</th></tr>
+    <tr><td>Items & Catalog</td><td><b class="btn">✨ Add sample products</b></td><td>2 new products (for example Silken Tofu, Tempeh)</td></tr>
+    <tr><td>Batches & Expiry</td><td><b class="btn">✨ Receive sample GRN</b></td><td>Receives an open purchase order and creates new batches</td></tr>
+    <tr><td>Warehouses & Cold Chain</td><td><b class="btn">✨ Capture sensor readings</b></td><td>A new temperature reading for every warehouse (sometimes a high one)</td></tr>
+    <tr><td>Stock Adjustments</td><td><b class="btn">✨ Generate sample adjustment</b></td><td>2 damage / count / QC sample adjustments</td></tr>
+    <tr><td>Stock Transfers</td><td><b class="btn">✨ Generate sample transfer</b></td><td>A transfer from the plant to a hub (In Transit)</td></tr>
+    <tr><td>Production Orders</td><td><b class="btn">✨ Plan sample production</b></td><td>2 planned production orders for the lowest-stock products</td></tr>
+    <tr><td>Purchase Orders</td><td><b class="btn">✨ Generate sample POs</b></td><td>2 purchase orders to suppliers</td></tr>
+    <tr><td>Vendors</td><td><b class="btn">✨ Add sample vendors</b></td><td>2 new suppliers</td></tr>
+    <tr><td>Sales Orders</td><td><b class="btn">✨ Generate sample orders</b></td><td>4 customer orders</td></tr>
+    <tr><td>Customers</td><td><b class="btn">✨ Add sample customers</b></td><td>2 new customers</td></tr>
+    <tr><td>Returns</td><td><b class="btn">✨ Generate sample return</b></td><td>1 customer return with a credit note</td></tr>
+    <tr><td>Any screen (blue strip at the top)</td><td><b class="btn">Reset demo data</b></td><td>Wipes your changes and creates a fresh 60-day dataset (logins stay the same)</td></tr>
+  </table></div>
+</div></section>
+
+<!-- 11 -->
+<section id="help"><div class="wrap">
+  <div class="eyebrow">Section 11</div>
+  <h2>If something goes wrong</h2>
+  <div class="tbl-wrap"><table>
+    <tr><th style="width:36%">Problem</th><th>What to do</th></tr>
+    <tr><td>"Invalid email or password"</td><td>Click a demo account on the Sign in page instead of typing. Passwords are case-sensitive: <code>Admin@2026</code>, <code>Store@2026</code>, <code>Sales@2026</code>.</td></tr>
+    <tr><td>"Too many failed attempts"</td><td>Wait 60 seconds, then try again.</td></tr>
+    <tr><td>A menu I need is missing</td><td>You are logged in as the wrong role. Sign out and log in as <b>Administrator</b>, who sees everything.</td></tr>
+    <tr><td>"Insufficient stock" when dispatching or transferring</td><td>Lower the quantity (the <b>Available</b> column shows the maximum), or choose a different warehouse, or make more with a Production Order.</td></tr>
+    <tr><td>"Material shortage" when starting production</td><td>Lower the quantity, or go to <b>Purchase Orders → Reorder suggestions → Create PO → Receive goods</b> first.</td></tr>
+    <tr><td>The data looks messy after practising</td><td>Click <b class="btn">Reset demo data</b> in the blue strip at the top of the app.</td></tr>
+    <tr><td>Asked to sign in again unexpectedly</td><td>The app locks after 4 hours of no use, or if the tab was closed. Just sign in again; your data is still there.</td></tr>
+    <tr><td>The page looks blank or stuck</td><td>Press <code>F5</code> to refresh. You stay logged in.</td></tr>
+    <tr><td>The client asks "where is the data stored?"</td><td>"In this demo it's stored <b>encrypted</b> in the browser. In the real product it runs on a secure cloud server with daily backups."</td></tr>
+  </table></div>
+  <div class="tip">Practise the full flow once the day before. The whole run takes about 30 minutes, and after that it will feel natural.</div>
+</div></section>
+
+<footer><div class="wrap">Invexa · Inventory Cloud: Demo Guide · Demo link: <a href="https://parthagni22.github.io/invexa-inventory-demo/">parthagni22.github.io/invexa-inventory-demo</a></div></footer>
+
+<script>
+  document.querySelectorAll('.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-c');
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () {
+        b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1200);
+      }).catch(function () { prompt('Copy:', t); });
+    });
+  });
+</script>
+</body>
+</html>
