@@ -43,6 +43,8 @@ const App = (() => {
   let user = null;
   let route = null;
   let routed = false;
+  let authReady = null;
+  const LOCK_MSG = 'Your session was locked after a period of inactivity. Please sign in again.';
   let idleTimer = null;
   const root = () => $('#root');
 
@@ -59,16 +61,25 @@ const App = (() => {
 
   async function boot() {
     if (!window.crypto?.subtle) { root().innerHTML = '<div class="empty"><h4>Secure context required</h4><div>Please open this app over HTTPS.</div></div>'; return; }
-    showBoot('Preparing secure workspace…');
-    let auth = Store.authData();
-    if (!auth?.users?.length) auth = await provision();
+    window.addEventListener('hashchange', () => { if (!user) renderPublic(); });
+    const auth = Store.authData();
     const s = Security.getSession();
-    if (s && !s.expired) {
+    if (s && !s.expired && auth?.users?.length) {
       const u = auth.users.find(x => x.id === s.uid && x.active !== false);
-      if (u) { await enter(u, Security.sessionDek(s), false); return; }
+      if (u) { showBoot('Unlocking secure workspace…'); await enter(u, Security.sessionDek(s), false); return; }
     }
-    hideBoot();
-    renderLogin(s?.expired ? 'Your session was locked after a period of inactivity. Please sign in again.' : '');
+    // Visitors see the landing page instantly; demo credentials are provisioned in the background.
+    authReady = auth?.users?.length ? Promise.resolve(auth) : provision();
+    if (s?.expired) history.replaceState(null, '', '#/login');
+    renderPublic(s?.expired ? LOCK_MSG : '');
+  }
+
+  /** Public (signed-out) pages: landing at "#/" and sign-in at "#/login" ("#/signup" shows sign-up notice). */
+  function renderPublic(notice = '') {
+    const h = location.hash;
+    window.scrollTo(0, 0);
+    if (h.startsWith('#/login') || h.startsWith('#/signup')) renderLogin(notice, h.startsWith('#/signup'));
+    else Landing.render(root());
   }
 
   async function provision() {
@@ -98,17 +109,17 @@ const App = (() => {
     hideBoot();
     renderShell();
     if (!routed) { window.addEventListener('hashchange', onRoute); routed = true; }
-    if (!location.hash || location.hash === '#/' || location.hash === '#/login') location.hash = '#/dashboard';
+    if (!location.hash || location.hash === '#/' || /^#\/(login|signup)/.test(location.hash)) location.hash = '#/dashboard';
     else onRoute();
     startIdleWatch();
   }
 
   /* ---------- Login ---------- */
-  function renderLogin(notice = '') {
+  function renderLogin(notice = '', signup = false) {
     document.title = 'Sign in · Invexa Inventory Cloud';
     root().innerHTML = `<div class="auth">
       <div class="auth-art">
-        <div class="brand"><div class="brand-logo"><svg class="ic" viewBox="0 0 24 24">${ICONS.logo}</svg></div><div><div class="brand-name">Invexa</div><div class="brand-sub">Inventory Cloud</div></div></div>
+        <a class="brand" href="#/" style="color:inherit"><div class="brand-logo"><svg class="ic" viewBox="0 0 24 24">${ICONS.logo}</svg></div><div><div class="brand-name">Invexa</div><div class="brand-sub">Inventory Cloud</div></div></a>
         <h1>Fresh-food inventory, <span>batch-perfect</span> from plant to shelf.</h1>
         <p class="lead">One platform for perishable manufacturers — recipes, production, cold-chain warehouses, FEFO dispatch, GST invoicing and recall-ready traceability.</p>
         <div class="feat-list">
@@ -120,8 +131,9 @@ const App = (() => {
         <div class="auth-foot">${icon('shield', 'sm')} Demo build · Runs 100% in your browser · Data encrypted at rest</div>
       </div>
       <div class="auth-form-wrap"><div class="auth-form">
-        <h2>Welcome back</h2><div class="sub">Sign in to your Invexa workspace</div>
-        <div id="login-alert">${notice ? `<div class="alert warn">${icon('lock', 'sm')}<div>${esc(notice)}</div></div>` : ''}</div>
+        <a href="#/" class="back-home">${icon('chevLeft', 'sm')} Back to home</a>
+        <h2>${signup ? 'Start your free demo' : 'Welcome back'}</h2><div class="sub">${signup ? 'Pick a demo account below to explore the full workspace' : 'Sign in to your Invexa workspace'}</div>
+        <div id="login-alert">${notice ? `<div class="alert warn">${icon('lock', 'sm')}<div>${esc(notice)}</div></div>` : signup ? `<div class="alert info">${icon('sparkles', 'sm')}<div>This is a guided demo workspace, so new sign-ups are not required. Choose a role below and click <b>Sign in</b> — every module is live with sample data.</div></div>` : ''}</div>
         <form id="login" autocomplete="on" novalidate>
           ${UI.field('Work email', `<input class="input" name="email" type="email" autocomplete="username" placeholder="you@company.com" required>`)}
           ${UI.field('Password', `<div class="pw-wrap"><input class="input" name="pw" type="password" autocomplete="current-password" placeholder="••••••••" required><button type="button" data-eye title="Show password">${icon('eye', 'sm')}</button></div>`)}
@@ -146,7 +158,7 @@ const App = (() => {
       const lock = Security.lockedFor();
       if (lock) { alertBox.innerHTML = `<div class="alert err">${icon('lock', 'sm')}<div>Too many failed attempts. Try again in ${Math.ceil(lock / 1000)}s.</div></div>`; return; }
       btn.disabled = true; btn.innerHTML = `<span class="spinner" style="width:16px;height:16px;border-width:2px;margin:0"></span> Verifying…`;
-      const auth = Store.authData();
+      const auth = await (authReady || Promise.resolve(Store.authData()));
       const u = auth.users.find(x => x.email.toLowerCase() === email);
       let dek = null;
       try { dek = await Security.unlock(pw, (u && u.active !== false ? u : auth.users[0]).cred); if (!u || u.active === false) dek = null; } catch { dek = null; }
@@ -173,8 +185,9 @@ const App = (() => {
     user = null; route = null;
     UI.closeDrawer(); UI.destroyCharts();
     $$('.overlay').forEach(o => o.remove());
-    history.replaceState(null, '', location.pathname);
-    renderLogin(reason === 'locked' ? 'Your session was locked after a period of inactivity. Please sign in again.' : '');
+    history.replaceState(null, '', reason === 'locked' ? '#/login' : location.pathname);
+    authReady = Promise.resolve(Store.authData());
+    renderPublic(reason === 'locked' ? LOCK_MSG : '');
   }
 
   function startIdleWatch() {

@@ -5,6 +5,7 @@ fresh / perishable food manufacturers (tofu, plant-based dairy alternatives, chi
 pickles & spreads). No server, no database: everything runs and is stored **encrypted** in the browser.
 
 ## Live demo
+The site opens on a product landing page; **Sign in** or **Get started** leads to the login screen with the demo accounts below.
 After GitHub Pages is enabled the app is served from the repository's Pages URL.
 
 | Role | Email | Password | Access |
