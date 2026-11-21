@@ -39,7 +39,7 @@ business logic the UI uses, so every module reconciles. Each module also has a
 - Passwords are never stored: PBKDF2-HMAC-SHA256 (210k iterations, per-user 128-bit salt) → SHA-256 verifier
 - All business data is gzip-compressed and encrypted with **AES-256-GCM** using a random data key (DEK)
 - The DEK is wrapped per user with a key derived from that user's password (envelope encryption)
-- Tab-scoped session, 30-minute idle auto-lock, brute-force throttling, role-based route guards
+- Tab-scoped session, 4-hour idle auto-lock, brute-force throttling, role-based route guards
 - Settings → Security → *View raw stored data* shows exactly what is persisted (ciphertext only)
 
 > Demo note: a browser-only app cannot protect against someone with access to the open, unlocked tab.

@@ -18,7 +18,7 @@ const Security = (() => {
   const AAD = enc.encode('invexa.vault.v1');
   const SESSION_KEY = 'invexa.session';
   const GUARD_KEY = 'invexa.guard';
-  const IDLE_MS = 30 * 60 * 1000;
+  const IDLE_MS = 4 * 60 * 60 * 1000;
 
   function toB64(buf) {
     const bytes = new Uint8Array(buf);

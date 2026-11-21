@@ -68,7 +68,7 @@ const App = (() => {
       if (u) { await enter(u, Security.sessionDek(s), false); return; }
     }
     hideBoot();
-    renderLogin(s?.expired ? 'Your session was locked after 30 minutes of inactivity. Please sign in again.' : '');
+    renderLogin(s?.expired ? 'Your session was locked after a period of inactivity. Please sign in again.' : '');
   }
 
   async function provision() {
@@ -174,7 +174,7 @@ const App = (() => {
     UI.closeDrawer(); UI.destroyCharts();
     $$('.overlay').forEach(o => o.remove());
     history.replaceState(null, '', location.pathname);
-    renderLogin(reason === 'locked' ? 'Your session was locked after 30 minutes of inactivity. Please sign in again.' : '');
+    renderLogin(reason === 'locked' ? 'Your session was locked after a period of inactivity. Please sign in again.' : '');
   }
 
   function startIdleWatch() {
